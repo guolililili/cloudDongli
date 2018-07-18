@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <Slider v-model="value" range></Slider>
-    <router-view/>
+    <!-- <Slider v-model="value" range></Slider> -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App',
-  data () {
-            return {
-                value: [20, 50]
-            }
-        }
+  name: 'App'
+  // data() {
+            // return {
+                // value: [20, 50]
+            // }
+        // }
 
 }
 </script>
