@@ -11,9 +11,12 @@ export default new Router({
       component: () => import('@/views/login')
     }
     ,{
-      path: '/main',
+      path: '/',
       name: 'main',
-      component: () => import('@/views/main')
+      component: () => import('@/views/main'),
+      children: [
+        { path: 'home', title: {i18n: 'home'}, name: 'home', component: () => import('@/views/home/home.vue') }
+      ]
     },
     {
       path: '/locking',
