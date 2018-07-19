@@ -9,10 +9,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import('@/views/login')
-    },{
-      path: '/home',
-      name: 'home',
-      component: () => import('@/views/home')
+    }
+    ,{
+      path: '/main',
+      name: 'main',
+      component: () => import('@/views/main')
+    },
+    {
+      path: '/locking',
+      name: 'locking',
+      component: () => import('@/views/main-components/lockscreen/components/locking-page.vue')
     }
   ]
 })
