@@ -1,27 +1,17 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import iView from 'iview';
+import Util from '../libs/util';
+import VueRouter from 'vue-router';
+import Cookies from 'js-cookie';
+import {routers, otherRouter, appRouter} from './router';
 
-Vue.use(Router)
+Vue.use(VueRouter);
 
-export default new Router({
-  routes: [
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/login')
-    }
-    ,{
-      path: '/',
-      name: 'main',
-      component: () => import('@/views/main'),
-      children: [
-        { path: 'home', title: {i18n: 'home'}, name: 'home', component: () => import('@/views/home/home.vue') }
-      ]
-    },
-    {
-      path: '/locking',
-      name: 'locking',
-      component: () => import('@/views/main-components/lockscreen/components/locking-page.vue')
-    }
-  ]
-})
+// 路由配置
+const RouterConfig = {
+    mode: 'history',
+    routes: routers
+};
+
+export const router = new VueRouter(RouterConfig);
+

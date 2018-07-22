@@ -12,9 +12,9 @@
                     :before-push="beforePush"
                     :open-names="openedSubmenuArr"
                     :menu-list="menuList">
-                    <div slot="top" class="logo-con">
+                    <div slot="top" class="logo-con" @click="homeClick">
                         <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
-                        <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
+                        <img v-show="shrink" src="../images/company.png" key="min-logo" />
                     </div>
                 </shrinkable-menu>
             </scroll-bar>
@@ -26,11 +26,11 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-                <div class="header-middle-con">
+<!--                 <div class="header-middle-con">
                     <div class="main-breadcrumb">
                         <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
                     </div>
-                </div>
+                </div> -->
                 <div class="header-avator-con">
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
@@ -68,7 +68,7 @@
     </div>
 </template>
 <script>
-    // import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue';
+    import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue';
     import tagsPageOpened from './main-components/tags-page-opened.vue';
     import breadcrumbNav from './main-components/breadcrumb-nav.vue';
     import fullScreen from './main-components/fullscreen.vue';
@@ -81,7 +81,7 @@
     
     export default {
         components: {
-            // shrinkableMenu,
+            shrinkableMenu,
             tagsPageOpened,
             breadcrumbNav,
             fullScreen,
@@ -95,34 +95,34 @@
                 shrink: false,
                 userName: '',
                 isFullScreen: false,
-                // openedSubmenuArr: this.$store.state.app.openedSubmenuArr
+                openedSubmenuArr: this.$store.state.app.openedSubmenuArr
             };
         },
         computed: {
-            // menuList () {
-            //     return this.$store.state.app.menuList;
-            // },
-            // pageTagsList () {
-            //     return this.$store.state.app.pageOpenedList; // 打开的页面的页面对象
-            // },
-            // currentPath () {
-            //     return this.$store.state.app.currentPath; // 当前面包屑数组
-            // },
-            // avatorPath () {
-            //     return localStorage.avatorImgPath;
-            // },
-            // cachePage () {
-            //     return this.$store.state.app.cachePage;
-            // },
-            // lang () {
-            //     return this.$store.state.app.lang;
-            // },
-            // menuTheme () {
-            //     return this.$store.state.app.menuTheme;
-            // },
-            // mesCount () {
-            //     return this.$store.state.app.messageCount;
-            // }
+            menuList () {
+                return this.$store.state.app.menuList;
+            },
+            pageTagsList () {
+                return this.$store.state.app.pageOpenedList; // 打开的页面的页面对象
+            },
+            currentPath () {
+                return this.$store.state.app.currentPath; // 当前面包屑数组
+            },
+            avatorPath () {
+                return localStorage.avatorImgPath;
+            },
+            cachePage () {
+                return this.$store.state.app.cachePage;
+            },
+            lang () {
+                return this.$store.state.app.lang;
+            },
+            menuTheme () {
+                return this.$store.state.app.menuTheme;
+            },
+            mesCount () {
+                return this.$store.state.app.messageCount;
+            }
         },
         methods: {
             init () {
@@ -137,14 +137,19 @@
                 this.checkTag(this.$route.name);
                 this.$store.commit('setMessageCount', 3);
             },
+            homeClick(){
+                this.$router.push({
+                    name: 'home'
+                });
+            },
             toggleClick () {
                 this.shrink = !this.shrink;
             },
             handleClickUserDropdown (name) {
                 if (name === 'ownSpace') {
-                    util.openNewPage(this, 'ownspace_index');
+                    util.openNewPage(this, 'ownspace');
                     this.$router.push({
-                        name: 'ownspace_index'
+                        name: 'ownspace'
                     });
                 } else if (name === 'loginout') {
                     // 退出登录
