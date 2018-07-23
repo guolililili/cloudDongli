@@ -1,5 +1,10 @@
 <template>
-    <Table border :columns="columns7" :data="data6"></Table>
+    <div>
+       <div class="" style="width:300px;margin-bottom: 10px;">
+            <Cascader :data="data" change-on-select></Cascader>
+        </div>
+       <Table border :columns="columns7" :data="data6"></Table>
+    </div>
 </template>
 <script>
     export default {
@@ -85,7 +90,55 @@
                         age: 26,
                         address: 'Ottawa No. 2 Lake Park'
                     }
-                ]
+                ],
+                data: [
+                {
+                    value: 'beijing',
+                    label: '北京',
+                    children: [
+                        {
+                            value: 'gugong',
+                            label: '故宫'
+                        },
+                        {
+                            value: 'tiantan',
+                            label: '天坛'
+                        },
+                        {
+                            value: 'wangfujing',
+                            label: '王府井'
+                        }
+                    ]
+                }, {
+                    value: 'jiangsu',
+                    label: '江苏',
+                    children: [
+                        {
+                            value: 'nanjing',
+                            label: '南京',
+                            children: [
+                                {
+                                    value: 'fuzimiao',
+                                    label: '夫子庙',
+                                }
+                            ]
+                        },
+                        {
+                            value: 'suzhou',
+                            label: '苏州',
+                            children: [
+                                {
+                                    value: 'zhuozhengyuan',
+                                    label: '拙政园',
+                                },
+                                {
+                                    value: 'shizilin',
+                                    label: '狮子林',
+                                }
+                            ]
+                        }
+                    ]
+                }]
             }
         },
         methods: {
