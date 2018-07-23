@@ -26,7 +26,7 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-<!--                 <div class="header-middle-con">
+                <!--<div class="header-middle-con">
                     <div class="main-breadcrumb">
                         <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
                     </div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="tags-con">
-                <!-- <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened> -->
+                <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
             </div>
         </div>
         <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
