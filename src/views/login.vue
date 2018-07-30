@@ -66,8 +66,8 @@ export default {
                         method:'post',
                         url:'http://donglicloud.wxcareful.com/api/authorizations',
                         data:{
-                            username:'haohexin@yeah.net',
-                            password:'password'
+                            username: 'haohexin@yeah.net',
+                            password: 'password'
                         }
                     }).then(function(res){
                         console.log(res.data);
