@@ -10,9 +10,11 @@ import App from './app.vue';
 import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
+import axios from 'axios';
 
 Vue.config.productionTip = false
 Vue.use(iView);
+Vue.prototype.$ajax = axios;
 // new Vue({
 //   el: '#app',
 //       router: router,
