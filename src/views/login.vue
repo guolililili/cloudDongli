@@ -30,7 +30,7 @@
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <!-- <p class="login-tip">输入任意用户名和密码即可</p> -->
+                    <p class="login-tip">请输入正确的用户名和密码</p>
                 </div>
             </Card>
         </div>
@@ -43,8 +43,8 @@ export default {
     data () {
         return {
             form: {
-                userName: 'iview_admin',
-                password: ''
+                userName: 'haohexin@yeah.net',
+                password: 'password'
             },
             rules: {
                 userName: [
@@ -59,6 +59,7 @@ export default {
     methods: {
         handleSubmit () {
             this.$refs.loginForm.validate((valid) => {
+                var _self = this;
                 if (valid) {
                     Cookies.set('user', this.form.userName);
                     Cookies.set('password', this.form.password);
@@ -66,16 +67,15 @@ export default {
                         method:'post',
                         url:'http://donglicloud.wxcareful.com/api/authorizations',
                         data:{
-                            username: 'haohexin@yeah.net',
-                            password: 'password'
+                            username: this.form.userName,
+                            password: this.form.password
                         }
                     }).then(function(res){
-                        console.log(res.data);
-                        //  this.$router.push({
-                        //     name: 'home'
-                        // });
+                         _self.$router.push({
+                            name: 'home'
+                        });
                     }).catch(function(err){
-                        console.log("这是错误");
+                        _self.$Message.error('用户名或密码错误');
                     });
                 }
             });

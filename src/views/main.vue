@@ -93,7 +93,7 @@
         data () {
             return {
                 shrink: false,
-                userName: '',
+                userName: 'haohexin@yeah.net',
                 isFullScreen: false,
                 openedSubmenuArr: this.$store.state.app.openedSubmenuArr
             };

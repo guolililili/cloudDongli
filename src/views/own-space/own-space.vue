@@ -59,13 +59,13 @@
             <h3 slot="header" style="color:#2D8CF0">修改密码</h3>
             <Form ref="editPasswordForm" :model="editPasswordForm" :label-width="100" label-position="right" :rules="passwordValidate">
                 <FormItem label="原密码" prop="oldPass" :error="oldPassError">
-                    <Input v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码" ></Input>
+                    <Input v-model="editPasswordForm.oldPass" placeholder="请输入现在使用的密码" type="password"></Input>
                 </FormItem>
                 <FormItem label="新密码" prop="newPass">
-                    <Input v-model="editPasswordForm.newPass" placeholder="请输入新密码，至少6位字符" ></Input>
+                    <Input v-model="editPasswordForm.newPass" placeholder="请输入新密码，至少6位字符" type="password"></Input>
                 </FormItem>
                 <FormItem label="确认新密码" prop="rePass">
-                    <Input v-model="editPasswordForm.rePass" placeholder="请再次输入新密码" ></Input>
+                    <Input v-model="editPasswordForm.rePass" placeholder="请再次输入新密码" type="password"></Input>
                 </FormItem>
             </Form>
             <div slot="footer">
@@ -209,9 +209,24 @@ export default {
         },
         saveEditPass () {
             this.$refs['editPasswordForm'].validate((valid) => {
+                var _self = this;
                 if (valid) {
-                    this.savePassLoading = true;
-                    // you can write ajax request here
+                    this.$ajax({
+                        method:'post',
+                        url:'http://donglicloud.wxcareful.com/api/updatePass',
+                        headers:{
+                            Authorization:'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kb25nbGljbG91ZC53eGNhcmVmdWwuY29tIiwiaWF0IjoxNTMyOTM0NTE3LCJleHAiOjE1NjQ0NzA1MTcsIm5iZiI6MTUzMjkzNDUxNywianRpIjoibXN4VHRMZ3MyNkNzYkZiZSIsInN1YiI6MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NmcYEFiI8OMuvaDjFhAf5AOnc0SXsjLyKWV1P8mCsJQ'
+                        },
+                        data:{
+                            password: _self.editPasswordForm.oldPass,
+                            new_password: _self.editPasswordForm.rePass
+                        }
+                    }).then(function(res){
+                        _self.$Message.success('密码修改成功');
+                        _self.editPasswordModal = false;
+                    }).catch(function(err){
+                        _self.$Message.error('错误');
+                    });
                 }
             });
         },
