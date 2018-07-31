@@ -26,11 +26,6 @@
                         <Icon type="navicon" size="32"></Icon>
                     </Button>
                 </div>
-                <!--<div class="header-middle-con">
-                    <div class="main-breadcrumb">
-                        <breadcrumb-nav :currentPath="currentPath"></breadcrumb-nav>
-                    </div>
-                </div> -->
                 <div class="header-avator-con">
                     <full-screen v-model="isFullScreen" @on-change="fullscreenChange"></full-screen>
                     <lock-screen></lock-screen>
@@ -158,6 +153,7 @@
                     this.$router.push({
                         name: 'login'
                     });
+                    Cookies.remove('user');
                 }
             },
             checkTag (name) {
@@ -171,7 +167,11 @@
                 }
             },
             handleSubmenuChange (val) {
-                // console.log(val)
+                if(Cookies.get('user') == "" || Cookies.get('user') == undefined){
+                    this.$router.push({
+                        name: 'login'
+                    });
+                }              
             },
             beforePush (name) {
                 // if (name === 'accesstest_index') {

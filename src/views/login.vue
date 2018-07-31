@@ -30,7 +30,6 @@
                             <Button @click="handleSubmit" type="primary" long>登录</Button>
                         </FormItem>
                     </Form>
-                    <p class="login-tip">请输入正确的用户名和密码</p>
                 </div>
             </Card>
         </div>
@@ -61,8 +60,6 @@ export default {
             this.$refs.loginForm.validate((valid) => {
                 var _self = this;
                 if (valid) {
-                    Cookies.set('user', this.form.userName);
-                    Cookies.set('password', this.form.password);
                     this.$ajax({
                         method:'post',
                         url:'http://donglicloud.wxcareful.com/api/authorizations',
@@ -74,8 +71,19 @@ export default {
                          _self.$router.push({
                             name: 'home'
                         });
+                         _self.$Message.success({
+                            content: '登陆成功'
+                        });
+                        Cookies.set('user', _self.form.userName);
+                        Cookies.set('password', _self.form.password);
                     }).catch(function(err){
-                        _self.$Message.error('用户名或密码错误');
+                        _self.$Message.error({
+                            content: err.response.data.message
+                        });
+                    });
+                }else{
+                    _self.$Message.error({
+                        content: "请输入有效信息！"
                     });
                 }
             });
