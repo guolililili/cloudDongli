@@ -4,7 +4,6 @@ import {router} from './router/index';
 import {appRouter} from './router/router';
 import store from './store';
 import App from './app.vue';
-// import '@/locale';
 import 'iview/dist/styles/iview.css';
 import VueI18n from 'vue-i18n';
 import util from './libs/util';
@@ -14,6 +13,30 @@ Vue.config.productionTip = false
 Vue.use(iView);
 Vue.prototype.$ajax = axios;
 
+// const RouterConfig = {
+//     mode: 'history',
+//     routes: router
+// };
+// const Routers = new VueRouter(RouterConfig);
+
+// Routers.beforeEach((to, from, next) => {
+//     iView.LoadingBar.start();
+//     Util.title(to.meta.title);
+//     //未登录 访问除登录页外别的页面
+//     if (!store.getters.isLogin && to.name !== 'login') {
+//         Routers.push({name: 'login'});
+//     }
+//     //已登录 访问登录界面
+//     if (store.getters.isLogin && to.name == 'login') {
+//         Routers.push({name: 'home'});
+//     }
+//     next();
+// });
+
+// Routers.afrouterrerEach(() => {
+//     iView.LoadingBar.finish();
+//     window.scrollTo(0, 0);
+// });
 new Vue({
     el: '#app',
     router: router,
@@ -24,23 +47,8 @@ new Vue({
     },
     mounted () {
         this.currentPageName = this.$route.name;
-        // 显示打开的页面的列表
         this.$store.commit('setOpenedList');
         this.$store.commit('initCachepage');
-        // 权限菜单过滤相关
         this.$store.commit('updateMenulist');
-        // iview-admin检查更新
-        // util.checkUpdate(this);
-    },
-    created () {
-        let tagsList = [];
-        appRouter.map((item) => {
-            if (item.children.length <= 1) {
-                tagsList.push(item.children[0]);
-            } else {
-                tagsList.push(...item.children);
-            }
-        });
-        this.$store.commit('setTagsList', tagsList);
     }
 });

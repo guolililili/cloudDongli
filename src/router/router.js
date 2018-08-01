@@ -46,7 +46,6 @@ export const otherRouter = {
     children: [
         { path: 'home', title: {i18n: 'home'}, name: 'home', component: () => import('@/views/home/home.vue') },
         { path: 'ownspace', title: '个人中心', name: 'ownspace', component: () => import('@/views/own-space/own-space.vue') },
-        // { path: 'message', title: '消息中心', name: 'message', component: () => import('@/views/message/message.vue') }
     ]
 };
 

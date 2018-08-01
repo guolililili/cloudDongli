@@ -14,11 +14,11 @@ const RouterConfig = {
 };
 
 export const router = new VueRouter(RouterConfig);
-// router.beforeEach((to, from, next) => {
-//     // iView.LoadingBar.start();
-//     Util.title(to.meta.title, router.app);
-//     Util.toDefaultPage([...routers], to.name, router, next);
-// });
+router.beforeEach((to, from, next) => {
+    // iView.LoadingBar.start();
+    Util.title(to.meta.title, router.app);
+    Util.toDefaultPage([...routers], to.name, router, next);
+});
 
 router.afterEach((to) => {
 	iView.LoadingBar.start();

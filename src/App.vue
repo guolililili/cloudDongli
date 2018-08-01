@@ -8,7 +8,6 @@
     export default {
         data () {
             return {
-            //     theme: this.$store.state.app.themeColor
             };
         },
         mounted () {

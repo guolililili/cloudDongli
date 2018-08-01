@@ -95,15 +95,15 @@
                     this.$router.push({
                         name: 'login'
                     });
-                    Cookies.remove('user');
+                    // Cookies.remove('user');
                 }
             },
             handleSubmenuChange (val) {
-                if(Cookies.get('user') == "" || Cookies.get('user') == undefined){
-                    this.$router.push({
-                        name: 'login'
-                    });
-                }              
+                // if(Cookies.get('user') == "" || Cookies.get('user') == undefined){
+                //     this.$router.push({
+                //         name: 'login'
+                //     });
+                // }              
             },
             beforePush (name) {
                 return true;
