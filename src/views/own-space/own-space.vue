@@ -24,10 +24,10 @@
                     <FormItem label="登录密码：">
                         <Button type="text" size="small" @click="showEditPassword">修改密码</Button>
                     </FormItem>
-                    <div>
+                  <!--   <div>
                         <Button type="text" style="width: 100px;" @click="cancelEditUserInfor">取消</Button>
                         <Button type="primary" style="width: 100px;" :loading="save_loading" @click="saveEdit">保存</Button>
-                    </div>
+                    </div> -->
                 </Form>
             </div>
         </Card>
@@ -97,25 +97,25 @@ export default {
         showEditPassword () {
             this.editPasswordModal = true;
         },
-        cancelEditUserInfor () {
-            localStorage.pageOpenedList = JSON.stringify(this.$store.state.app.pageOpenedList);
-            let lastPageName = '';
-            if (this.$store.state.app.pageOpenedList.length > 1) {
-                lastPageName = this.$store.state.app.pageOpenedList[1].name;
-            } else {
-                lastPageName = this.$store.state.app.pageOpenedList[0].name;
-            }
-            this.$router.push({
-                name: lastPageName
-            });
-        },
-        saveEdit () {
-            this.$refs['userForm'].validate((valid) => {
-                if (valid) {
-                        this.saveInfoAjax();
-                    }
-            });
-        },
+        // cancelEditUserInfor () {
+        //     localStorage.pageOpenedList = JSON.stringify(this.$store.state.app.pageOpenedList);
+        //     let lastPageName = '';
+        //     if (this.$store.state.app.pageOpenedList.length > 1) {
+        //         lastPageName = this.$store.state.app.pageOpenedList[1].name;
+        //     } else {
+        //         lastPageName = this.$store.state.app.pageOpenedList[0].name;
+        //     }
+        //     this.$router.push({
+        //         name: lastPageName
+        //     });
+        // },
+        // saveEdit () {
+        //     this.$refs['userForm'].validate((valid) => {
+        //         if (valid) {
+        //                 this.saveInfoAjax();
+        //             }
+        //     });
+        // },
         cancelEditPass () {
             this.editPasswordModal = false;
         },
