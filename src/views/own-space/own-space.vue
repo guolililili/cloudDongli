@@ -18,16 +18,12 @@
                 >
                     <FormItem label="用户姓名：" prop="name">
                         <div style="display:inline-block;width:300px;">
-                            <Input v-model="userForm.name" ></Input>
+                            {{username}}
                         </div>
                     </FormItem>
                     <FormItem label="登录密码：">
                         <Button type="text" size="small" @click="showEditPassword">修改密码</Button>
                     </FormItem>
-                  <!--   <div>
-                        <Button type="text" style="width: 100px;" @click="cancelEditUserInfor">取消</Button>
-                        <Button type="primary" style="width: 100px;" :loading="save_loading" @click="saveEdit">保存</Button>
-                    </div> -->
                 </Form>
             </div>
         </Card>
@@ -53,6 +49,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 export default {
     name: 'ownspace',
     data () {
@@ -65,9 +62,8 @@ export default {
         };
         return {
             userForm: {
-                name: ''
+                // name: ''
             },
-            uid: '', // 登录用户的userId
             save_loading: false,
             editPasswordModal: false, // 修改密码模态框显示
             savePassLoading: false,
@@ -97,25 +93,6 @@ export default {
         showEditPassword () {
             this.editPasswordModal = true;
         },
-        // cancelEditUserInfor () {
-        //     localStorage.pageOpenedList = JSON.stringify(this.$store.state.app.pageOpenedList);
-        //     let lastPageName = '';
-        //     if (this.$store.state.app.pageOpenedList.length > 1) {
-        //         lastPageName = this.$store.state.app.pageOpenedList[1].name;
-        //     } else {
-        //         lastPageName = this.$store.state.app.pageOpenedList[0].name;
-        //     }
-        //     this.$router.push({
-        //         name: lastPageName
-        //     });
-        // },
-        // saveEdit () {
-        //     this.$refs['userForm'].validate((valid) => {
-        //         if (valid) {
-        //                 this.saveInfoAjax();
-        //             }
-        //     });
-        // },
         cancelEditPass () {
             this.editPasswordModal = false;
         },
@@ -127,7 +104,7 @@ export default {
                         method:'post',
                         url:'http://donglicloud.wxcareful.com/api/updatePass',
                         headers:{
-                            Authorization:'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kb25nbGljbG91ZC53eGNhcmVmdWwuY29tIiwiaWF0IjoxNTMyOTM0NTE3LCJleHAiOjE1NjQ0NzA1MTcsIm5iZiI6MTUzMjkzNDUxNywianRpIjoibXN4VHRMZ3MyNkNzYkZiZSIsInN1YiI6MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NmcYEFiI8OMuvaDjFhAf5AOnc0SXsjLyKWV1P8mCsJQ'
+                            Authorization:Cookies.get("access-token")
                         },
                         data:{
                             password: _self.editPasswordForm.oldPass,
@@ -142,9 +119,6 @@ export default {
                 }
             });
         },
-        init () {
-            this.userForm.name = 'ken';
-        },
         cancelInputCodeBox () {
             this.inputCodeVisible = false;
             this.userForm.cellphone = this.initPhone;
@@ -157,8 +131,10 @@ export default {
             }, 1000);
         }
     },
-    mounted () {
-        this.init();
+    computed: {
+        username() {
+          return Cookies.get("user");  
+        }
     }
 };
 </script>

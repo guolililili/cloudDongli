@@ -57,7 +57,7 @@
     
     export default {
         components: {
-            shrinkableMenu,
+            shrinkableMenu
         },
         data () {
             return {

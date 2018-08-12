@@ -1,23 +1,39 @@
 <template>
     <div>
-        <Table :loading="loading" :data="tableData" :columns="tableColumns"></Table>
+        <Row style="margin: 10px;">
+            <Input
+                clearable style="width: 220px"
+                v-model="keywords"
+                search enter-button="Search"
+                placeholder="关键词"
+                @on-change="handleKeywords"
+            />
+        </Row>
+        <Table :loading="loading" :data="tableData" :columns="tableColumns" stripe></Table>
         <div style="margin: 10px;overflow: hidden">
-            <div style="float: right;">
+            <div style="float:right;">
                 <Page :total="total" :current="current_page" :page-size="per_page" @on-change="changePage" show-total></Page>
             </div>
        </div>    
     </div>
 </template>
 <script>
+    import Cookies from 'js-cookie';
+    import server from '../../../config/api';
     export default {
         data () {
             return {
                 loading:false,
+                keywords: '',
                 total: 0,
                 current_page: 1,
                 per_page: 5,
                 tableData: [],
                 tableColumns: [
+                    {
+                        title:'序列号',
+                        key:'serial_number'
+                    },
                     {
                         title: '客户',
                         key: 'customer_name'
@@ -26,13 +42,8 @@
                         title: '设备类型',
                         key: 'category',
                         render: (h, params) => {
-                            //  return h('div', [
-                            //     h('strong', params.row.category.title)
-                            // ]);
+                             return h('div', [h('strong', params.row.category.title)]);
                         }
-                    },{
-                        title:'序列号',
-                        key:'serial_number'
                     },{
                         title:'运行',
                         key:'running' 
@@ -54,7 +65,25 @@
                     },
                     {
                         title:'操作',
-                        key:'action' 
+                        key:'action' ,
+                        render:(h,params) => {
+                            return h('div', [
+                                h('Button', {
+                                    props: {
+                                        type: 'primary',
+                                        size: 'small'
+                                    },
+                                    style: {
+                                        marginRight: '5px'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.showDeviceChart(params.index)
+                                        }
+                                    }
+                                }, '查看曲线')
+                            ]);
+                        }
                     }
                 ]
             }
@@ -68,19 +97,19 @@
                 var _self = this;
                 this.$ajax({
                     method:"get",
-                    url:'http://donglicloud.wxcareful.com/api/devices?include=category&page=' + _self.current_page,
+                    url: server.api.myDevices+'?include=category&page=' + _self.current_page+'&keywords='+_self.keywords,
                     headers:{
-                        Authorization:'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kb25nbGljbG91ZC53eGNhcmVmdWwuY29tIiwiaWF0IjoxNTMyOTM0NTE3LCJleHAiOjE1NjQ0NzA1MTcsIm5iZiI6MTUzMjkzNDUxNywianRpIjoibXN4VHRMZ3MyNkNzYkZiZSIsInN1YiI6MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NmcYEFiI8OMuvaDjFhAf5AOnc0SXsjLyKWV1P8mCsJQ'
+                        Authorization:Cookies.get("access-token")
                     },
                     data:{}
                 }).then(function(response){
                     _self.tableData = response.data.data;
                     _self.total = response.data.meta.pagination.total;
-                    _self.current_page = response.data.meta.current_page;
-                    _self.per_page = response.data.meta.per_page;
+                    _self.current_page = response.data.meta.pagination.current_page;
+                    _self.per_page = response.data.meta.pagination.per_page;
                     _self.loading = false;
                 }).catch(function(error){
-                    _this.$Message.error({
+                    _self.$Message.error({
                         content:error.response.data.message
                     });
 
@@ -89,6 +118,18 @@
             changePage (value) {
                 this.current_page = value;
                 this.initDeviceList();
+            },
+            handleKeywords(){
+                // this.current_page = 1;
+                this.initDeviceList();
+            },
+            showDeviceChart(index){
+                this.$router.push({
+                    name:'deviceChart',
+                     query: {
+                        device_id: this.tableData[index]['id']
+                    }
+                });
             }
         }
     }

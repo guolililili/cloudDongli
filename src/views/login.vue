@@ -38,9 +38,11 @@
 
 <script>
 import Cookies from 'js-cookie';
+import server from '../../config/api'
 export default {
     data () {
         return {
+            loginLoading: false,
             form: {
                 userName: 'haohexin@yeah.net',
                 password: 'password'
@@ -57,17 +59,19 @@ export default {
     },
     methods: {
         handleSubmit () {
+            this.loginLoading = true;
             this.$refs.loginForm.validate((valid) => {
                 var _self = this;
                 if (valid) {
                     this.$ajax({
                         method:'post',
-                        url:'http://donglicloud.wxcareful.com/api/authorizations',
+                        url:server.api.login,
                         data:{
                             username: this.form.userName,
                             password: this.form.password
                         }
                     }).then(function(res){
+                        _self.loginLoading = false;
                          _self.$router.push({
                             name: 'home'
                         });
@@ -76,6 +80,7 @@ export default {
                         });
                         Cookies.set('user', _self.form.userName);
                         Cookies.set('password', _self.form.password);
+                        Cookies.set('access-token', "Bearer " + res.data.access_token);
                     }).catch(function(err){
                         _self.$Message.error({
                             content: err.response.data.message
